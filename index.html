@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Memory Slideshow PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#121212">
+    <!-- Mengimpor style.js sebagai CSS terkompilasi / langsung inject -->
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <!-- Latar Belakang Dinamis & Blur -->
+    <div id="dynamic-bg" class="bg-layer"></div>
+    <div class="glass-overlay"></div>
+
+    <!-- Kontainer Slideshow Utama -->
+    <main id="slideshow-container" class="slideshow-wrapper">
+        <div class="welcome-screen" id="welcome-screen">
+            <h1>Kenangan Indah</h1>
+            <p>Pilih foto dari galeri HP Anda untuk memulai slideshow mewah.</p>
+            <label for="file-input" class="btn-primary">Pilih Foto (Galeri)</label>
+        </div>
+        <!-- Elemen Gambar Slideshow akan di-inject oleh App.js -->
+        <div id="slide-stage" class="slide-stage"></div>
+    </main>
+
+    <!-- Tombol Input Tersembunyi -->
+    <input type="file" id="file-input" accept="image/*" multiple style="display: none;">
+
+    <!-- Kontrol UI (Auto-Hide) -->
+    <nav id="controls-bar" class="controls-bar hidden">
+        <button id="btn-prev" class="control-btn" title="Sebelumnya">❮</button>
+        <button id="btn-play-pause" class="control-btn primary" title="Play/Pause">⏸</button>
+        <button id="btn-next" class="control-btn" title="Berikutnya">❯</button>
+        <button id="btn-settings" class="control-btn" title="Ganti Foto">📁</button>
+    </nav>
+
+    <!-- Skrip Aplikasi -->
+    <script src="App.js"></script>
+    <script>
+        // Mendaftarkan Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker terdaftar!', reg.scope))
+                    .catch(err => console.log('Gagal daftar SW:', err));
+            });
+        }
+    </script>
+</body>
+</html>
